@@ -48,7 +48,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 10
-        stackView.backgroundColor = .red
         stackView.addArrangedSubview(accessoryTextField)
         stackView.addArrangedSubview(accessoryButton)
         return stackView
@@ -73,19 +72,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.placeholder = "Type something..."
         textField.backgroundColor = .systemGray6
         textField.borderStyle = .roundedRect
-//        textField.translatesAutoresizingMaskIntoConstraints = false
-//        textField.inputAccessoryView = accessoryViewToolbar
-//        accessoryViewToolbar.addSubview(textField)
         return textField
     }()
 
     // Button on Accessory View
     lazy var accessoryButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Button", for: .normal)
+        button.setTitle("Ekle", for: .normal)
         button.addTarget(self, action: #selector(accessoryButtonTapped), for: .touchUpInside)
         button.widthAnchor.constraint(equalToConstant: 60).isActive = true
-//        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .systemPink
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -93,7 +90,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     lazy var dimmingView: UIView = {
         let dimView = UIView()
         dimView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        dimView.alpha = 0 // Başlangıçta görünmez
+        dimView.alpha = 0
         view.addSubview(dimView)
         dimView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -126,7 +123,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         setupDimmingView()
     }
     
-    // Klavye olaylarını dinlemek için NotificationCenter ayarlamaları
+    // Set up NotificationCenter to listen for keyboard events
     private func setupKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -138,14 +135,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @objc private func keyboardWillShow(notification: NSNotification) {
 
-        // Klavye açıldığında dimmingView'i göster
+        // Show the dimmingView when the keyboard is opened
         UIView.animate(withDuration: 0.3) {
             self.dimmingView.alpha = 1
         }
 }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
-        // Klavye kapandığında dimmingView'i gizle
+        // Hide the dimmingView when the keyboard is closed
         UIView.animate(withDuration: 0.3) {
             self.dimmingView.alpha = 0
         }
@@ -168,7 +165,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func saveWord(word: String) {
-        // AppDelegate'ten CoreData stack'ına erişin.
+        // Access the CoreData stack from the AppDelegate.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
         
@@ -195,15 +192,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 extension ViewController {
     func setupAddWordButton() {
-//        NSLayoutConstraint.activate([
-//            addWordButton.trailingAnchor.constraint(
-//                equalTo: view.trailingAnchor, constant: -30),
-//            addWordButton.bottomAnchor.constraint(
-//                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
-//            addWordButton.widthAnchor.constraint(equalToConstant: 100), // Buton genişliği
-//            addWordButton.heightAnchor.constraint(equalToConstant: 50) // Buton yüksekliği
-//        ])
-        // Buton constraints
         NSLayoutConstraint.activate([
             addWordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             addWordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -270,6 +258,39 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
+    
+    // MARK: - NSFetchedResultsControllerDelegate Methods
+
+        func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+            homeTableView.beginUpdates()
+        }
+
+        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+            switch type {
+            case .insert:
+                if let newIndexPath = newIndexPath {
+                    homeTableView.insertRows(at: [newIndexPath], with: .fade)
+                }
+            case .delete:
+                if let indexPath = indexPath {
+                    homeTableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            case .update:
+                if let indexPath = indexPath {
+                    homeTableView.reloadRows(at: [indexPath], with: .fade)
+                }
+            case .move:
+                if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                    homeTableView.moveRow(at: indexPath, to: newIndexPath)
+                }
+            @unknown default:
+                fatalError("NSFetchedResultsControllerChangeType unknown case")
+            }
+        }
+
+        func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+            homeTableView.endUpdates()
+        }
 }
 
 #Preview {

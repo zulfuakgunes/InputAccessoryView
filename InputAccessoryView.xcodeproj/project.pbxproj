@@ -12,8 +12,6 @@
 		6A34D85D2B62477700A0317C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34D85C2B62477700A0317C /* ViewController.swift */; };
 		6A34D8622B62477900A0317C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A34D8612B62477900A0317C /* Assets.xcassets */; };
 		6A34D8652B62477900A0317C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A34D8632B62477900A0317C /* LaunchScreen.storyboard */; };
-		6A34D86F2B62494500A0317C /* UITextField + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34D86E2B62494500A0317C /* UITextField + Ext.swift */; };
-		6A487C552B664F38001E198C /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A487C542B664F38001E198C /* HomeTableViewController.swift */; };
 		6A487C582B667032001E198C /* WordData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A487C562B667032001E198C /* WordData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +23,6 @@
 		6A34D8612B62477900A0317C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A34D8642B62477900A0317C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A34D8662B62477900A0317C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A34D86E2B62494500A0317C /* UITextField + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Ext.swift"; sourceTree = "<group>"; };
-		6A487C542B664F38001E198C /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		6A487C572B667032001E198C /* WordData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,25 +56,15 @@
 		6A34D8572B62477700A0317C /* InputAccessoryView */ = {
 			isa = PBXGroup;
 			children = (
-				6A34D86D2B6248D200A0317C /* Extensions */,
 				6A34D8582B62477700A0317C /* AppDelegate.swift */,
 				6A34D85A2B62477700A0317C /* SceneDelegate.swift */,
 				6A34D85C2B62477700A0317C /* ViewController.swift */,
 				6A34D8612B62477900A0317C /* Assets.xcassets */,
 				6A34D8632B62477900A0317C /* LaunchScreen.storyboard */,
 				6A34D8662B62477900A0317C /* Info.plist */,
-				6A487C542B664F38001E198C /* HomeTableViewController.swift */,
 				6A487C562B667032001E198C /* WordData.xcdatamodeld */,
 			);
 			path = InputAccessoryView;
-			sourceTree = "<group>";
-		};
-		6A34D86D2B6248D200A0317C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				6A34D86E2B62494500A0317C /* UITextField + Ext.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,10 +138,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A34D85D2B62477700A0317C /* ViewController.swift in Sources */,
-				6A34D86F2B62494500A0317C /* UITextField + Ext.swift in Sources */,
 				6A34D8592B62477700A0317C /* AppDelegate.swift in Sources */,
 				6A34D85B2B62477700A0317C /* SceneDelegate.swift in Sources */,
-				6A487C552B664F38001E198C /* HomeTableViewController.swift in Sources */,
 				6A487C582B667032001E198C /* WordData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -78,7 +78,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // Button on Accessory View
     lazy var accessoryButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Ekle", for: .normal)
+        button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(accessoryButtonTapped), for: .touchUpInside)
         button.widthAnchor.constraint(equalToConstant: 60).isActive = true
         button.tintColor = .systemPink

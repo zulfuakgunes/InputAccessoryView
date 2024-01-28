@@ -11,16 +11,20 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     // Button on the main screen
     lazy var addWordButton: UIButton = {
-        let button = UIButton(type: .system)
-        let plusIcon = UIImage(systemName: "plus")
+        var configuration = UIButton.Configuration.filled()
+
+        configuration.title = "Add Word"
+        configuration.baseBackgroundColor = UIColor.systemPink
+        configuration.contentInsets = NSDirectionalEdgeInsets(
+          top: 10,
+          leading: 20,
+          bottom: 10,
+          trailing: 20
+        )
+        let button = UIButton(configuration: configuration, primaryAction: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemBlue
-        button.setImage(plusIcon, for: .normal)
-        button.tintColor = .white
-        
-        button.addTarget(self, action: #selector(addWordButtonTapped), for: .touchUpInside)
-        button.clipsToBounds = true
         view.addSubview(button)
+        button.addTarget(self, action: #selector(addWordButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -94,6 +98,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         layoutUI()
         setupKeyboardNotifications()
     }
@@ -155,11 +160,8 @@ extension ViewController {
             addWordButton.trailingAnchor.constraint(
                     equalTo: view.trailingAnchor, constant: -30),
             addWordButton.bottomAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            addWordButton.heightAnchor.constraint(
-                    equalToConstant: 60),
-            addWordButton.widthAnchor.constraint(
-                    equalToConstant: 60)])
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            ])
         
     }
         

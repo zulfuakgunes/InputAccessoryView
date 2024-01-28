@@ -6,8 +6,20 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITextFieldDelegate {
+    var fetchedResultsController: NSFetchedResultsController<Card>!
+    
+    lazy var homeTableView: UITableView = {
+       let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.view.addSubview(tableView)
+        return tableView
+    }()
     
     // Button on the main screen
     lazy var addWordButton: UIButton = {
@@ -23,7 +35,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         )
         let button = UIButton(configuration: configuration, primaryAction: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button)
+        self.view.addSubview(button)
         button.addTarget(self, action: #selector(addWordButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -104,9 +116,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         layoutUI()
         setupKeyboardNotifications()
+        initializeFetchedResultsController()
     }
     
     private func layoutUI() {   
+        setupTableView()
         setupAddWordButton()
         setupInputStackView()
         setupDimmingView()
@@ -128,10 +142,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.3) {
             self.dimmingView.alpha = 1
         }
-    }
+}
 
     @objc private func keyboardWillHide(notification: NSNotification) {
-
         // Klavye kapandığında dimmingView'i gizle
         UIView.animate(withDuration: 0.3) {
             self.dimmingView.alpha = 0
@@ -143,33 +156,60 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func accessoryButtonTapped() {
-        DispatchQueue.main.async {
-            self.accessoryTextField.resignFirstResponder()
-            self.hiddenTextField.resignFirstResponder()
+        guard let wordText = accessoryTextField.text, !wordText.isEmpty else {
+            return
         }
         
+        saveWord(word: wordText)
+        accessoryTextField.text = ""
+        
+        self.accessoryTextField.resignFirstResponder()
+        self.hiddenTextField.resignFirstResponder()
+    }
+    
+    func saveWord(word: String) {
+        // AppDelegate'ten CoreData stack'ına erişin.
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let newCard = Card(context: context)
+        newCard.word = word
+
+        do {
+            try context.save()
+            print("Saved successfully")
+        }
+        catch {
+            print("Failed saving \(error)")
+        }
     }
     
     @objc private func addWordButtonTapped() {
         // Make textField become the first responder
         print("Add button tapped")
-        DispatchQueue.main.async {
             self.hiddenTextField.becomeFirstResponder()
             self.accessoryTextField.becomeFirstResponder()
-        }
     }
     
 }
 
 extension ViewController {
     func setupAddWordButton() {
+//        NSLayoutConstraint.activate([
+//            addWordButton.trailingAnchor.constraint(
+//                equalTo: view.trailingAnchor, constant: -30),
+//            addWordButton.bottomAnchor.constraint(
+//                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+//            addWordButton.widthAnchor.constraint(equalToConstant: 100), // Buton genişliği
+//            addWordButton.heightAnchor.constraint(equalToConstant: 50) // Buton yüksekliği
+//        ])
+        // Buton constraints
         NSLayoutConstraint.activate([
-            addWordButton.trailingAnchor.constraint(
-                    equalTo: view.trailingAnchor, constant: -30),
-            addWordButton.bottomAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
-            ])
-        
+            addWordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            addWordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addWordButton.widthAnchor.constraint(equalToConstant: 200),
+            addWordButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
         
     func setupInputStackView() {
@@ -187,4 +227,51 @@ extension ViewController {
                 dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 dimmingView.topAnchor.constraint(equalTo: view.topAnchor)])
     }
+    
+    func setupTableView() {
+        NSLayoutConstraint.activate([
+            homeTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            homeTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            homeTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            homeTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let card = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = card.word
+        return cell
+    }
+    
+    func initializeFetchedResultsController() {
+        let request: NSFetchRequest<Card> = Card.fetchRequest()
+        let sort = NSSortDescriptor(key: "word", ascending: true)
+        request.sortDescriptors = [sort]
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+    }
+}
+
+#Preview {
+    ViewController()
 }

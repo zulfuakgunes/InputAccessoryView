@@ -13,7 +13,8 @@
 		6A34D8622B62477900A0317C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A34D8612B62477900A0317C /* Assets.xcassets */; };
 		6A34D8652B62477900A0317C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A34D8632B62477900A0317C /* LaunchScreen.storyboard */; };
 		6A34D86F2B62494500A0317C /* UITextField + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34D86E2B62494500A0317C /* UITextField + Ext.swift */; };
-		6A487C552B664F38001E198C /* ButtonVeiwController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A487C542B664F38001E198C /* ButtonVeiwController.swift */; };
+		6A487C552B664F38001E198C /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A487C542B664F38001E198C /* HomeTableViewController.swift */; };
+		6A487C582B667032001E198C /* WordData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A487C562B667032001E198C /* WordData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +26,8 @@
 		6A34D8642B62477900A0317C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6A34D8662B62477900A0317C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A34D86E2B62494500A0317C /* UITextField + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Ext.swift"; sourceTree = "<group>"; };
-		6A487C542B664F38001E198C /* ButtonVeiwController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonVeiwController.swift; sourceTree = "<group>"; };
+		6A487C542B664F38001E198C /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
+		6A487C572B667032001E198C /* WordData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +67,8 @@
 				6A34D8612B62477900A0317C /* Assets.xcassets */,
 				6A34D8632B62477900A0317C /* LaunchScreen.storyboard */,
 				6A34D8662B62477900A0317C /* Info.plist */,
-				6A487C542B664F38001E198C /* ButtonVeiwController.swift */,
+				6A487C542B664F38001E198C /* HomeTableViewController.swift */,
+				6A487C562B667032001E198C /* WordData.xcdatamodeld */,
 			);
 			path = InputAccessoryView;
 			sourceTree = "<group>";
@@ -152,7 +155,8 @@
 				6A34D86F2B62494500A0317C /* UITextField + Ext.swift in Sources */,
 				6A34D8592B62477700A0317C /* AppDelegate.swift in Sources */,
 				6A34D85B2B62477700A0317C /* SceneDelegate.swift in Sources */,
-				6A487C552B664F38001E198C /* ButtonVeiwController.swift in Sources */,
+				6A487C552B664F38001E198C /* HomeTableViewController.swift in Sources */,
+				6A487C582B667032001E198C /* WordData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +369,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6A487C562B667032001E198C /* WordData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6A487C572B667032001E198C /* WordData.xcdatamodel */,
+			);
+			currentVersion = 6A487C572B667032001E198C /* WordData.xcdatamodel */;
+			path = WordData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6A34D84D2B62477600A0317C /* Project object */;
 }

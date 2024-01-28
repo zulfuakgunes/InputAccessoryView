@@ -31,10 +31,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
 //     Stack View for holding textField and button
     lazy var inputStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.distribution = .fill
+        stackView.alignment = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.distribution = .fill
         stackView.spacing = 10
+        stackView.backgroundColor = .red
         stackView.addArrangedSubview(accessoryTextField)
         stackView.addArrangedSubview(accessoryButton)
         return stackView
@@ -59,7 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.placeholder = "Type something..."
         textField.backgroundColor = .systemGray6
         textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
+//        textField.translatesAutoresizingMaskIntoConstraints = false
 //        textField.inputAccessoryView = accessoryViewToolbar
 //        accessoryViewToolbar.addSubview(textField)
         return textField
@@ -70,7 +72,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let button = UIButton(type: .system)
         button.setTitle("Button", for: .normal)
         button.addTarget(self, action: #selector(accessoryButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
+//        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -113,6 +116,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private func setupKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override var inputAccessoryView: UIView? {
+        return accessoryViewToolbar
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -167,7 +174,7 @@ extension ViewController {
         
     func setupInputStackView() {
         NSLayoutConstraint.activate([
-            inputStackView.heightAnchor.constraint(equalTo: accessoryTextField.heightAnchor)
+            inputStackView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
